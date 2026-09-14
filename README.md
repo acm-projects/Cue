@@ -272,14 +272,14 @@ Tutorial: [FastAPI Quickstart](https://fastapi.tiangolo.com/tutorial/)
 
 <div align="center">
 <h2>🎊Developers🎊</h2>
-<h3>Adrian Hautea</h3><br/>
-<h3>Keshav Taneja</h3><br/>
-<h3>Liana Forster</h3><br/>
-<h3>Hieu Tran</h3><br/>
-<h3>Patrick Enerio</h3><br/>
+<h3>Bratesh Gupta</h3><br/>
+<h3>Julian Castellanos</h3><br/>
+<h3>Karina Gonzalez-Martinez</h3><br/>
+<h3>Laya Mallina</h3><br/>
+<h3>Safa Ahmed</h3><br/>
 <h2>🎊Project Manager🎊</h2>
-<h3>Suhani Rana</h3><br/>
+<h3>Hadent Dang</h3><br/>
 <h2>🎊Industry Mentor🎊</h2>
-<h3>Joanna Borba</h3><br/>
+<h3>Abis Naqvi</h3><br/>
 <div />
 
