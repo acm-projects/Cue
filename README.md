@@ -1,6 +1,6 @@
 # Cue
 <p align="center">
-  <img src="./justin-miles.gif" alt="Idiot Sandwich" width="600"/>
+  <img src="./justina-miles.gif" alt="Idiot Sandwich" width="600"/>
 </p>
 
 <h1 align="center">🙌 Cue 🙌</h1>
