@@ -264,9 +264,9 @@ Tutorial: [FastAPI Quickstart](https://fastapi.tiangolo.com/tutorial/)
 | **git commit -m "Testing123"** | Commit with message |
 | **git push origin "branch"** | Push to branch |
 | **git pull origin "branch"** | Pull updates from a specific branch |
-| get commit hash (find on github or in terminal run **git log --oneline** ) then **git revert 2f5451f --no-edit**| Undo a commit that has been pushed |
+| **git commit hash** (find on GitHub or run `git log --oneline` in the terminal), then run **`git revert <commit-hash> --no-edit`** | Undo a commit that has been pushed |
 | **git reset --soft HEAD~** | Undo commit (not pushed) but *keep* the changes |
-| get commit hash then **git reset --hard 2f5451f** | Undo commit (not pushed) and *remove*  changes |
+| **get commit hash** (run `git log --oneline`), then **`git reset --hard <commit-hash>`** | Undo a commit that has not been pushed and *remove* its changes |
 
 ## The Team 🎉
 
