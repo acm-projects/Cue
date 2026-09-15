@@ -33,10 +33,11 @@ Video calls have become the default way people meet, but they're built entirely 
 <summary>📱 Frontend</summary>
 
 * [React Documentation](https://react.dev/learn)  
-* [Electron Documentation](https://www.electronjs.org/docs/latest/)  
 * [Tailwind CSS Documentation](https://tailwindcss.com/docs)  
+* [Chrome Extensions Documentation](https://developer.chrome.com/docs/extensions/)  
+* [Chrome Extensions: Get Started Tutorial](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world)  
 * [VIDEO: React JS Full Course for Beginners](https://www.youtube.com/watch?v=SqcY0GlETPk)  
-* [VIDEO: Electron JS Tutorial for Beginners](https://www.youtube.com/watch?v=3yqDxhR2XxE)  
+* [VIDEO: Chrome Extension Development Tutorial for Beginners](https://www.youtube.com/watch?v=0n809nd4Zu4)  
 * [VIDEO: Tailwind CSS Full Course for Beginners](https://www.youtube.com/watch?v=DenUCuq4G04)
 
 </details>
