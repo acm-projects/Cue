@@ -28,7 +28,6 @@ Video calls have become the default way people meet, but they're built entirely 
 ---
 
 ## Tech Stack & Resources 💻
-#### React Native (Expo) • FastAPI / Node.js • Firebase / PostgreSQL • Google Cloud TTS/STT  
 
 <details>
 <summary>📱 Frontend</summary>
