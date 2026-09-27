@@ -190,7 +190,11 @@ class Sign_Dataset(Dataset):
         for i in frames_to_sample:
             pose_path = os.path.join(self.pose_root, video_id, self.framename.format(str(i).zfill(5)))
             # pose = cv2.imread(frame_path, cv2.COLOR_BGR2RGB)
-            pose = read_pose_file(pose_path)
+            try:
+                pose = read_pose_file(pose_path)
+            except OSError:
+                print("Skipping unreadable keypoint file:", pose_path)
+                pose = None
 
             if pose is not None:
                 if self.img_transforms:

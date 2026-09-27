@@ -26,7 +26,7 @@ def test(model, test_loader):
             print('starting batch: {}'.format(batch_idx))
             # distribute data to device
             X, y, video_ids = data
-            X, y = X.cuda(), y.cuda().view(-1, )
+            X, y = X.to(next(model.parameters()).device), y.to(next(model.parameters()).device).view(-1, )
 
             all_output = []
 
@@ -62,17 +62,20 @@ def test(model, test_loader):
     all_y_pred = all_y_pred.cpu().data.numpy()
 
     # top-k accuracy
-    top1acc = accuracy_score(all_y, all_y_pred)
-    top3acc = compute_top_n_accuracy(all_y, all_pool_out, 3)
-    top5acc = compute_top_n_accuracy(all_y, all_pool_out, 5)
-    top10acc = compute_top_n_accuracy(all_y, all_pool_out, 10)
-    top30acc = compute_top_n_accuracy(all_y, all_pool_out, 30)
+    # top1acc = accuracy_score(all_y, all_y_pred)
+    # top3acc = compute_top_n_accuracy(all_y, all_pool_out, 3)
+    # top5acc = compute_top_n_accuracy(all_y, all_pool_out, 5)
+    # top10acc = compute_top_n_accuracy(all_y, all_pool_out, 10)
+    # top30acc = compute_top_n_accuracy(all_y, all_pool_out, 30)
+
+    print("Prediction:", all_y_pred)
+    print("Actual:", all_y)
 
     # show information
-    print('\nVal. set ({:d} samples): top-1 Accuracy: {:.2f}%\n'.format(len(all_y), 100 * top1acc))
-    print('\nVal. set ({:d} samples): top-3 Accuracy: {:.2f}%\n'.format(len(all_y), 100 * top3acc))
-    print('\nVal. set ({:d} samples): top-5 Accuracy: {:.2f}%\n'.format(len(all_y), 100 * top5acc))
-    print('\nVal. set ({:d} samples): top-10 Accuracy: {:.2f}%\n'.format(len(all_y), 100 * top10acc))
+    # print('\nVal. set ({:d} samples): top-1 Accuracy: {:.2f}%\n'.format(len(all_y), 100 * top1acc))
+    # print('\nVal. set ({:d} samples): top-3 Accuracy: {:.2f}%\n'.format(len(all_y), 100 * top3acc))
+    # print('\nVal. set ({:d} samples): top-5 Accuracy: {:.2f}%\n'.format(len(all_y), 100 * top5acc))
+    # print('\nVal. set ({:d} samples): top-10 Accuracy: {:.2f}%\n'.format(len(all_y), 100 * top10acc))
 
 
 def compute_top_n_accuracy(truths, preds, n):
@@ -87,17 +90,21 @@ def compute_top_n_accuracy(truths, preds, n):
 
 if __name__ == '__main__':
 
-    # change root and subset accordingly.
-    root = '/media/anudisk/github/WLASL'
+    root = r'C:\Users\hi\OneDrive\Documents\ACM\Cue\WLASL'
     trained_on = 'asl2000'
 
-    checkpoint = 'ckpt.pth'
+    hf_root = os.path.expanduser(
+        r'~\.cache\huggingface\hub\models--sharonn18--tgcn-wlasl'
+        r'\snapshots\dacb4568719caa03c44764034f599a9f8a0f63f4'
+        r'\checkpoints\asl2000'
+    )
 
-    split_file = os.path.join(root, 'data/splits/{}.json'.format(trained_on))
-    # test_on_split_file = os.path.join(root, 'data/splits-with-dialect-annotated/{}.json'.format(tested_on))
+    split_file = os.path.join(root, 'data', 'splits', '{}.json'.format(trained_on))
+    pose_data_root = os.path.join(
+    root, 'data', 'pose_per_individual_videos', 'pose_per_individual_videos')
+    config_file = os.path.join(hf_root, 'config.ini')
+    checkpoint_file = os.path.join(hf_root, 'pytorch_model.bin')
 
-    pose_data_root = os.path.join(root, 'data/pose_per_individual_videos')
-    config_file = os.path.join(root, 'code/TGCN/archived/{}/{}.ini'.format(trained_on, trained_on))
     configs = Config(config_file)
 
     num_samples = configs.num_samples
@@ -106,22 +113,41 @@ if __name__ == '__main__':
     num_stages = configs.num_stages
     batch_size = configs.batch_size
 
-    dataset = Sign_Dataset(index_file_path=split_file, split='test', pose_root=pose_data_root,
-                           img_transforms=None, video_transforms=None,
-                           num_samples=num_samples,
-                           sample_strategy='k_copies',
-                           test_index_file=split_file
-                           )
-    data_loader = torch.utils.data.DataLoader(dataset=dataset, batch_size=batch_size, shuffle=True)
+    dataset = Sign_Dataset(
+        index_file_path=split_file,
+        split='test',
+        pose_root=pose_data_root,
+        img_transforms=None,
+        video_transforms=None,
+        num_samples=num_samples,
+        sample_strategy='k_copies',
+        test_index_file=split_file
+    )
 
-    # setup the model
-    model = GCN_muti_att(input_feature=num_samples * 2, hidden_feature=hidden_size,
-                         num_class=int(trained_on[3:]), p_dropout=drop_p, num_stage=num_stages).cuda()
+    from torch.utils.data import Subset
+    dataset = Subset(dataset, [0])
+
+    data_loader = torch.utils.data.DataLoader(
+        dataset=dataset,
+        batch_size=1,
+        shuffle=False
+    )
+
+    device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+    model = GCN_muti_att(
+        input_feature=num_samples * 2,
+        hidden_feature=hidden_size,
+        num_class=int(trained_on[3:]),
+        p_dropout=drop_p,
+        num_stage=num_stages
+    ).to(device)
 
     print('Loading model...')
-
-    checkpoint = torch.load(os.path.join(root, 'code/TGCN/archived/{}/{}'.format(trained_on, checkpoint)))
-    model.load_state_dict(checkpoint)
+    checkpoint = torch.load(checkpoint_file, map_location=device)
+    state_dict = checkpoint.get('state_dict', checkpoint)
+    model.load_state_dict(state_dict, strict=False)
     print('Finish loading model!')
+    print('Using device:', device)
 
     test(model, data_loader)
