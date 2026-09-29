@@ -1,6 +1,7 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
-# General
+#
+.vscode
 .DS_Store
 .localized
 __MACOSX/
@@ -13,6 +14,21 @@ Icon[
 /node_modules
 /.pnp
 .pnp.js
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[codz]
+*$py.class
+
+# Environments
+.env
+.envrc
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
 # testing
 /coverage
