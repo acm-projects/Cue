@@ -1,9 +1,8 @@
-# Cue
 <p align="center">
   <img src="./justina-miles.gif" alt="Idiot Sandwich" width="600"/>
 </p>
 
-<h1 align="center">🙌 Cue 🙌</h1>
+<h1 align="center">🌸 Iris 🌸</h1>
 
 <p align="center">
 Video calls have become the default way people meet, but they're built entirely around spoken language. For someone who is deaf or hard of hearing and doesn't have a hearing interpreter on the call, a Google Meet is functionally unusable. Captions only work one direction, and there's no way to sign back and be understood. Cue is a real-time translation layer for video meetings. It uses computer vision and machine learning to read a user's sign language through their camera and speak it aloud to hearing participants, while simultaneously converting hearing participants' speech into on-screen captions for the signer. Unlike existing sign-recognition tools that require specialized hardware or are built purely for teaching, Cue is designed to sit invisibly inside a call people are already having, turning a one-way captioning feature into an actual two-way conversation.
