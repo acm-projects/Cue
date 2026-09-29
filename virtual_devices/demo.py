@@ -27,8 +27,7 @@ WIDTH, HEIGHT, FPS = 1280, 720, 30
 
 # Change this to match the virtual audio device you installed:
 #   Windows -> "CABLE Input"
-#   macOS   -> "BlackHole"   (matches BlackHole 2ch)
-#   Linux   -> whatever sink_name you gave module-null-sink
+#   macOS   -> "BlackHole"   (matches to 'BlackHole 2ch')
 MIC_DEVICE_HINT = "BlackHole"
 
 
@@ -37,7 +36,7 @@ def video_loop(label_text="Hello is this thing on?"):
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, WIDTH)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, HEIGHT)
     if not cap.isOpened():
-        raise RuntimeError("Could not open the real webcam (index 0).")
+        raise RuntimeError("Could not open the real webcam :( (index 0).")
 
     with VirtualCamera(width=WIDTH, height=HEIGHT, fps=FPS) as vcam:
         try:
@@ -47,8 +46,8 @@ def video_loop(label_text="Hello is this thing on?"):
                     continue
                 frame_bgr = cv2.resize(frame_bgr, (WIDTH, HEIGHT))
 
-                # Stand-in for Cue's "signer-facing feedback" overlay -
-                # replace with the real recognized-sign label.
+                # Stand-in for Iris's "signer-facing feedback" overlay -
+                # replace with the real recognized-sign label later.
                 cv2.putText(
                     frame_bgr, label_text, (30, HEIGHT - 40),
                     cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 255, 0), 2, cv2.LINE_AA,
@@ -62,17 +61,17 @@ def video_loop(label_text="Hello is this thing on?"):
 def audio_demo():
     mic = VirtualMicrophone(device_name_hint=MIC_DEVICE_HINT, samplerate=48000)
 
-    # Stand-in for TTS output of a recognized sign: a 1-second 440Hz tone.
-    # Swap this for your TTS engine's generated waveform.
+    # Stand-in for TTS output, it's just A = 440hz
+    # Swap this for the TTS API once we get one
     t = np.linspace(0, 1.0, 48000, endpoint=False)
     tone = 0.2 * np.sin(2 * np.pi * 440 * t).astype(np.float32)
 
-    time.sleep(2)  # let the video loop spin up first
+    time.sleep(2)  # let the video loop start up first
     mic.speak(tone)
 
 
 if __name__ == "__main__":
-    #audio_thread = threading.Thread(target=audio_demo, daemon=True)
-    #audio_thread.start()
+    audio_thread = threading.Thread(target=audio_demo, daemon=True)
+    audio_thread.start()
 
     video_loop()

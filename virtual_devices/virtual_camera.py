@@ -23,8 +23,8 @@ class VirtualCamera:
         """
         width, height, fps : stream resolution/framerate. Must match what
             you pass to send_frame().
-        device : optional, force a specific virtual camera device name/path
-            (e.g. "/dev/video10" on Linux). Leave None to use the first
+        device : optional, force a specific virtual camera device name/path.
+        Leave None to use the first
             one pyvirtualcam finds.
         backend : optional, force a specific backend ("obs", "unitycapture",
             "v4l2loopback", ...). Leave None to auto-detect.

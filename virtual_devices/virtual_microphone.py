@@ -1,10 +1,10 @@
 """
 virtual_microphone.py
 
-Plays audio (e.g. TTS output for a recognized sign) out through a
+Plays audio (e.g. TTS output for a recognized sign once we get there) out through a
 system-level virtual audio cable, so Google Meet can pick it up as if
 it were a real microphone. Like the camera, the driver itself
-(VB-CABLE / BlackHole / a PulseAudio null-sink) must be installed first
+(VB-CABLE / BlackHole) must be installed first
 - see SETUP.md. sounddevice just needs to know which output device to
 write to.
 
@@ -44,8 +44,8 @@ class VirtualMicrophone:
     def __init__(self, device_name_hint: str, samplerate: int = 48000):
         """
         device_name_hint : substring of the virtual cable's output-side
-            device name, e.g. "CABLE Input" (Windows/VB-CABLE),
-            "BlackHole" (macOS), or your PulseAudio sink name (Linux).
+            device name, e.g. "CABLE Input" (Windows/VB-CABLE) or
+            "BlackHole" (macOS).
         samplerate : default sample rate for speak() when none is given.
         """
         self.device_index = find_device_index(device_name_hint)
