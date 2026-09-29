@@ -52,3 +52,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 >>>>>>> origin/main
+
+python/.venv/
